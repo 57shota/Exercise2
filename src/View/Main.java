@@ -16,27 +16,6 @@ import javax.swing.*;
  * @author sho
  */
 public class Main {
-    
-    public enum selectedMenu {
-        input(1),
-        sortByLast(2),
-        sortByCourse(3),
-        searchByID(4),
-        searchByLast(5),
-        exit(4),
-        invalidExit(-99),
-        cancel(-100),
-        invalidChoice(-101);
-        
-        private int num;
-        private selectedMenu(int num) {
-            this.num = num;
-        }
-        
-        public int getNum() {
-            return this.num;
-        }
-    }
 
     final static String fileName = "Student.bin";
     static ArrayList<Student> students;
@@ -69,7 +48,7 @@ public class Main {
                     searchBy();
                 case -99:
                     JOptionPane.showMessageDialog(null,
-                                                 "You must enter something, 4 to exit", 
+                                                 "You must enter something, 6 to exit", 
                                                  "ERROR",
                                                  JOptionPane.ERROR_MESSAGE);
                     break;
@@ -162,10 +141,7 @@ public class Main {
                 break;
             default:
                 break;
-                
-                
         }
-        
     }
     
     public static void searchBy() {
