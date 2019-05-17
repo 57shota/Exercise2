@@ -6,6 +6,8 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.NotSerializableException;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import javax.swing.*;
 
 
@@ -16,10 +18,11 @@ import javax.swing.*;
 public class Main {
 
     final static String fileName = "Student.bin";
+    static ArrayList<Student> students;
     
     public static void main(String[] args) {
-        ArrayList<Student> list = new ArrayList<>();
-        list = readData();
+        students = new ArrayList<>();
+        students = readData();
         menuProcess();
         
     }
@@ -30,7 +33,7 @@ public class Main {
         while(choice != 6) {
             switch(choice) {
                 case 1:
-                    createStudent();
+                    students.add(createStudent());
                     break;
                 case 2:
                     sortAndDisplay(choice);
@@ -59,7 +62,7 @@ public class Main {
             }
             choice = menu();
         }
-        System.exit(0);
+        saveData(students);
     }
     
     public static int menu() {
@@ -111,6 +114,17 @@ public class Main {
         int cource = 3;
         switch(choice) {
             case last:
+                Collections.sort(students, new Comparator<Student>() {
+                    @Override
+                    public int compare(Student s1, Student s2) {
+                        return s1.getLastName().compareTo(s2.getLastName());
+                    }
+                    
+                });
+                break;
+            case default:
+                break;
+                
                 
         }
         
@@ -122,9 +136,9 @@ public class Main {
     
     public static ArrayList<Student> readData(){
         
-        ArrayList<Student> list = new ArrayList<>();
+        ArrayList<Student> students = new ArrayList<>();
         try{
-           list = BinaryProcess.readStudentData(fileName);
+           students = BinaryProcess.readStudentData(fileName);
         }
         catch(FileNotFoundException fnfEx){
             System.err.println("Problem with the patients.bin file");
@@ -137,7 +151,24 @@ public class Main {
             System.err.println("Problem with reading data from file");
         }
    
-        return list;
+        return students;
+    }
+    
+    public static void saveData(ArrayList<Student> list){
+        
+        try{
+            BinaryProcess.saveStudentData(fileName, list);
+        }
+        catch(FileNotFoundException fnfEx){
+            System.err.println("Problem with the binary file");
+        }
+        catch(NotSerializableException nsEx){
+            System.err.println("A class has not been serialised");
+        }
+        catch (IOException ioEx){
+            System.err.println("Issue(s) with saving data to file");
+        }
+        
     }
     
 }
