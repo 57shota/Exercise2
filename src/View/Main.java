@@ -42,10 +42,10 @@ public class Main {
                     sortAndDisplay(choice);
                     break;
                 case 4:
-                    searchBy();
+                    searchBy(choice);
                     break;
                 case 5:
-                    searchBy();
+                    searchBy(choice);
                 case -99:
                     JOptionPane.showMessageDialog(null,
                                                  "You must enter something, 6 to exit", 
@@ -144,8 +144,33 @@ public class Main {
         }
     }
     
-    public static void searchBy() {
+    public static void searchBy(int choice) {
+        final int id = 4;
+        final int last = 5;
+        String  query;
+        ArrayList<Student> searchedStudent = new ArrayList<>();
         
+        switch(choice) {
+            case id:
+                query = JOptionPane.showInputDialog("Enter student ID you want to search for.");
+                for(Student s : students){
+                    if(s.getId() != null && s.getId().contains(query)) {
+                        searchedStudent.add(s);
+                    }      
+                }
+                displayStudents(searchedStudent);
+                break;
+            case last:query = JOptionPane.showInputDialog("Enter student Last Name you want to search for.");
+                for(Student s : students){
+                    if(s.getLastName() != null && s.getLastName().contains(query)) {
+                        searchedStudent.add(s);
+                    }      
+                }
+                displayStudents(searchedStudent);
+                break;
+            default:
+                break;
+        }
     }
     
     public static ArrayList<Student> readData(){
